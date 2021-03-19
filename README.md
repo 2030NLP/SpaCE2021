@@ -91,6 +91,14 @@ $$
 Z = \frac{X-\bar{X}}{s}
 $$
 
+
+
+##### 基线系统
+
+我们提供一个基线系统供参赛队伍参考。地址： https://github.com/ELFEamp/text_biclassification_baseline
+
+
+
 ##### 数据提交方式
 
 将结果数据或模型以邮件附件形式发送至 `sru_test AT 163 DOT com` 。
