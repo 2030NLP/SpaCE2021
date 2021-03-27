@@ -14,4 +14,4 @@
 - **联系方式**：sc_eval@163.com
 - **总奖金**：40000元（华为公司赞助）
 - **任务网址**：https://github.com/2030NLP/SpatialCognEval2021
-- **依托**：CCL2021
+- **依托会议**：CCL2021
