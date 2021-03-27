@@ -2,9 +2,7 @@
 
 #### 关键信息
 
-> 这部分内容是用于CCL2021评测总览页面的简要介绍。
->
-> 另可见于： [abstract.md](https://github.com/2030NLP/SpatialCognEval2021/blob/main/abstract.md)
+> 此为用于CCL2021评测总览页面的简要介绍。
 
 - **任务名称**：中文空间语义理解评测
 - **任务简介**：
