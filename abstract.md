@@ -23,6 +23,6 @@
 
 **总奖金**：40000元（华为公司赞助）
 
-**任务网址**：https://github.com/2030NLP/SpatialCognEval2021
+**任务网址**：https://github.com/2030NLP/SpaCE2021
 
 **依托会议**：CCL2021
