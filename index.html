@@ -1,0 +1,1028 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>中文空间语义理解评测</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; tab-size: 4; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+mark .md-meta { color: rgb(0, 0, 0); opacity: 0.3 !important; }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-require-zoom-fix foreignObject { font-size: var(--mermaid-font-zoom); }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+/*@import "night/mermaid.classic.css";*/
+
+
+.mark-page {
+    display: inline-block;
+    min-height: 1em;
+    min-width: 1em;
+    border: 1px solid #ddd;
+    color: #083;
+    /*background-color: #eefff0;*/
+    border-radius: 3px;
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+    padding: 2px 4px 2px 4px;
+    font-size: 0.95em;
+}
+.mark-page:after {
+    content: "p " attr(data-page-number);
+}
+
+/*
+.span-quote {
+    background: #eeffee;
+    color: #006600;
+}
+
+.span-publish {
+    background: #ffffee;
+    color: #666600;
+}
+
+.span-meeting {
+    background: #ffeeee;
+    color: #660000;
+}
+
+.span-meeting-part {
+    background: #f0eeee;
+    color: #880000;
+}
+
+.span-meeting-da {
+    background: #ffeeee;
+    color: #aa0000;
+}
+
+.span-meeting-quanhui {
+    background: #ffeeee;
+    color: #cc0000;
+}
+
+.span-date {
+    background: #dddddd;
+}
+
+.span-date-year {
+    background: #dddddd;
+    color: #000000;
+    font-weight: bold;
+}
+
+.span-date-month {
+    background: #dddddd;
+    color: #000000;
+    font-weight: bold;
+}
+
+.span-date-day {
+    background: #dddddd;
+    color: #000000;
+    font-weight: bold;
+}
+
+.span-date-season {
+    background: #dddddd;
+    color: #000000;
+    font-weight: bold;
+}
+*/
+
+
+
+
+
+/* MAIN */
+
+*, ::before, ::after {
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * css forked from https://github.com/GitbookIO/gitbook
+ * www.gitbook.com
+ * Apache License
+ * https://github.com/GitbookIO/gitbook/blob/master/LICENSE
+ **/
+
+html {
+    /*background-color: #eee;*/
+    font-size: 14px;
+}
+
+body {
+    /*background-color: #eee;*/
+    /*font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    color: rgb(0, 0, 0);
+    line-height: 1.6 !important;
+}
+
+#write{
+    /*font-family: "FZYingXueS-R-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    font-family: "Simsun","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    /*max-width: 800px;*/
+    /*max-width: 640px;*/
+    padding: 30px 30px 30px 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    /*border: 2px solid #222;*/
+    margin: 0 auto 20em;
+    background: #fff;
+    /*border-radius: 5px;*/
+    /*box-shadow: 0 0px 8px rgba(0,0,0,0.1);*/
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+body > *:first-child {
+    margin-top: 0 !important;
+}
+body > *:last-child {
+    margin-bottom: 0 !important;
+}
+a {
+    /*font-family: "FZJinLS-L-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    /*font-family: "Source Code Pro", "simsun", monospace;*/
+    /*color: #666;*/
+    color: #0091FF;
+    text-decoration: none;
+    /*border-bottom: 1px dotted #aaa;*/
+    border-bottom: 1px dotted #0091FF;
+}
+strong {
+    /*font-family: "FZJinLS-L-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    /*font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    color: #d63b70;
+}
+em {
+    /*font-family: "FZJinLS-L-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    /*font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    color: #2590A6;
+}
+blockquote strong {
+    color: inherit;
+}
+blockquote em {
+    color: inherit;
+}
+h1,
+h2,
+h3 {
+    text-align: center;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Open Sans","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    /*font-family: "FZJinLS-L-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+    position: relative;
+    margin-top: 1.4em;
+    margin-bottom: 1em;
+    /*font-weight: bold;*/
+    line-height: 1.4;
+    cursor: text;
+    color: #000;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    /*background: url("file:///Users/air/Library/Application%20Support/images/modules/styleguide/para.png") no-repeat 10px center;*/
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    /*padding-bottom: .3em;*/
+    font-size: 2.0em;
+    line-height: 1.2;
+    /*border-bottom: 1px solid #eee;*/
+}
+h2 {
+   /*padding-bottom: .3em;*/
+    font-size: 1.65em;
+    line-height: 1.225;
+    /*border-bottom: 1px solid #eee;*/
+}
+h3 {
+    font-size: 1.35em;
+    line-height: 1.43;
+}
+/*h1, h2, h3 {
+    padding: 5em 0.5em;
+    background: #3ea0be;
+    color: #fff;
+}*/
+h4 {
+    font-size: 1.15em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 1.6em;
+    padding: 0;
+    margin: 1.6em -30px;
+    background-color: rgba(238,238,238,1);
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+    /*border-bottom: 1px solid #ddd;*/
+}
+hr.normal {
+    height: 1px;
+    padding: 0;
+    margin: 1.6em -30px;
+    background-color: rgba(238,238,238,1);
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+del {
+    opacity: 0.2;
+}
+
+body > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h3:first-child,
+body > h4:first-child,
+body > h5:first-child,
+body > h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+a:first-child h1,
+a:first-child h2,
+a:first-child h3,
+a:first-child h4,
+a:first-child h5,
+a:first-child h6 {
+    margin-top: 0;
+    padding-top: 0;
+}
+h1 p,
+h2 p,
+h3 p,
+h4 p,
+h5 p,
+h6 p {
+    margin-top: 0;
+}
+li p.first {
+    display: inline-block;
+}
+li p {
+    margin: 0.2em 0;
+    padding: 0;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-radius: 3px;
+    border-left: 4px solid #dddddd;
+    padding: 0 15px;
+    color: #333;
+    font-size: 0.95em;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+
+
+table {
+    border-radius: 3px;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    /*border-left: 1px solid #eee;*/
+    /*border-right: 1px solid #eee;*/
+    padding: 0;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: auto;
+}
+table thead tr:first-child {
+    border-bottom: 2px solid #ddd;
+    background-color: #fbfbfb;
+}
+/*table tbody tr:first-child {
+    border-top: 2px solid #0f0;
+}*/
+table tr {
+    border-top: 0px solid #eee;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n) {
+    background-color: #fbfbfb;
+}
+table tr th {
+    font-weight: bold;
+    border-left: 1px dotted #eee;
+    border-right: 1px dotted #eee;
+    text-align: left;
+    margin: 0;
+    padding: 0.25em 0.5em;
+}
+table tr td {
+    border-left: 1px dotted #eee;
+    border-right: 1px dotted #eee;
+    text-align: left;
+    margin: 0;
+    padding: 0.25em 0.5em;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+table hr {
+    margin: 0.5em 0;
+}
+
+
+
+.CodeMirror-gutters {
+    border-right: 1px solid #ddd;
+}
+
+code {
+    color: #4c9969;
+}
+
+.md-fences,
+code,
+tt {
+    /*border: 1px solid #ddd;*/
+    background-color: #f7fff8;
+    border-radius: 3px;
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+    padding: 2px 4px 2px 4px;
+    font-size: 0.85em;
+}
+
+/*mark {
+    background: rgba(25, 201, 215, 0.05);
+    border-bottom: 1px dotted rgba(0, 164, 255, 0.5);
+}
+
+mark:hover {
+    background: rgba(25, 201, 215,0.25);
+    border-bottom: 1px solid rgba(0, 164, 255,0.8);
+}*/
+
+mark {
+    background: rgba(255, 255, 60, 0.25);
+    /*border-bottom: 1px dotted rgba(0, 164, 255, 0.5);*/
+}
+
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 10px 10px;
+    /*padding: 0.2em 1em;*/
+    /*padding-top: 8px;*/
+    /*padding-bottom: 6px;*/
+}
+
+.task-list{
+	padding-left: 0;
+}
+
+.task-list-item {
+	padding-left:32px;
+}
+
+.task-list-item input {
+  top: 3px;
+  left: 8px;
+}
+
+@media screen and (min-width: 914px) {
+    /*body {
+        width: 854px;
+        margin: 0 auto;
+    }*/
+}
+@media print {
+    html {
+        /*font-size: 13px;*/
+        /*background-color: #eee;*/
+    }
+    body.typora-export {
+        padding-left: 0;
+        padding-right: 0;
+        padding: 0;
+    }
+    #write{
+        /*font-family: "FZYingXueS-R-GB","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+        font-family: "Simsun","Clear Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+        max-width: 100%;
+        padding: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        /*border: 2px solid #222;*/
+        margin: 0;
+        background: #fff;
+        /*border-radius: 5px;*/
+        /*box-shadow: 0 0px 8px rgba(0,0,0,0.1);*/
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+    hr {
+        height: 1px;
+        padding: 0;
+        margin: 1.6em -30px;
+        background-color: rgba(238,238,238,1);
+        border: 0 none;
+        overflow: hidden;
+        box-sizing: content-box;
+    }
+    hr.pageline {
+        background-color: rgba(238,238,238,0);
+        page-break-before: always;
+        margin-bottom: 2em;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+#write p {
+    /*text-indent: 2em;*/
+}
+
+#write img {
+    max-height: 400px;
+    width: auto;
+}
+
+.md-tag{
+    color: inherit;
+}
+
+.md-toc {
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+
+sup{
+    border-radius: 0.5em;
+    padding: 1px 0.2em;
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+}
+
+/*sup{
+    background: #E0EFFF;
+    color: #07294C;
+}*/
+sub{
+    /*border-radius: 0.5em;*/
+    /*padding: 1px 0.2em;*/
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+}
+sub{
+    /*background: #E0EFFF;*/
+    /*color: #07294C;*/
+}
+
+
+
+
+/** markdown source **/
+/*.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-property
+{
+    color: #f00;
+}
+
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor{
+    border-left: 3px solid #0f0;
+}
+
+.cm-s-typora-default .cm-comment {
+    color: #00f;
+}
+
+.cm-s-typora-default .cm-string {
+    color: #ff0
+}
+
+.cm-s-typora-default .cm-atom, .cm-s-typora-default .cm-number {
+    color: #f0f;
+    font-style: italic;
+}
+
+.cm-s-typora-default .cm-link {
+    color: #0ff;
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+    background: rgba(51, 51, 51, 0.72);
+}*/
+
+.cm-s-typora-default .cm-comment, .cm-s-typora-default .cm-code {
+    color: #000;
+    font-family: "Source Code Pro", "simsun", monospace;/* Consolas,*/
+}
+
+
+
+
+
+
+
+
+
+
+
+/*#write div.md-toc-tooltip {
+    background-color: #f3f2ee;
+    border: 2px solid #222;
+}*/
+
+
+
+
+
+
+
+.mac-seamless-mode content {
+    margin-top: 24px;
+}
+
+titlebar {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    min-height: 24px;
+    z-index: 666;
+    /*box-shadow: 0 2px 2px rgba(20,20,20,0.1);*/
+    background-image: linear-gradient(to top, #ddd 0%, #fff 100%);
+}
+
+content {
+    background: #eee;
+    padding: 20px 10px;
+}
+
+
+#write pre.md-meta-block {
+    background-color: #666;
+    color: #fff;
+    /*font-weight: bolder;*/
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+    /*background-color: rgba(238,238,238,1);*/
+    /*color: #aaa;*/
+    /*text-shadow: 0 1px 0 #fff;*/
+    margin-top: -30px;
+    margin-bottom: 1.6em;
+    margin-left: -30px;
+    margin-right: -30px;
+    font-size: 100%;
+    padding: 20px 30px;
+    /*padding: 20px 30px 0;*/
+    border: 0 none;
+}
+/*#write pre.md-meta-block:after {
+    display: block;
+    content: " ";
+    height: 1.6em;
+    padding: 0;
+    margin: 1.6em -30px 0;
+    margin: 0 -30px;
+    background-color: #eee;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}*/
+
+#write:after {
+    /*height: 4.8em;*/
+    /*border-top: 1.6em solid #eee;*/
+    /*border-bottom: 1.6em solid #eee;*/
+    display: block;
+    height: 1.6em;
+    line-height: 1.6em;
+    /*content: "-- The End --";*/
+    text-align: center;
+    font-weight: bolder;
+    /*background-color: rgba(238,238,238,1);*/
+    /*color: #ccc;*/
+    /*text-shadow: 0 1px 1px #fff;*/
+    margin-top: 1.6em;
+    margin-bottom: -30px;
+    margin-left: -30px;
+    margin-right: -30px;
+    font-size: 100%;
+    padding: 0 30px;
+    border: 0 none;
+}
+
+
+#typora-source {
+    background: #fff;
+}
+
+.mac-seamless-mode #write {
+    min-height: 0;
+}
+
+
+
+/*#write:after {
+    display: block;
+    height: 9.6em;
+    line-height: 4.8em;
+    content: "The End";
+    text-align: center;
+    font-weight: bolder;
+    background-color: #f8f8f8;
+    color: #aaa;
+    margin-top: 1.6em;
+    margin-bottom: -30px;
+    margin-left: -30px;
+    margin-right: -30px;
+    font-size: 100%;
+    padding: 1.6em 30px;
+    border: 0 none;
+    border-top: 1.6em solid #eee;
+}*/
+
+
+
+
+
+
+
+
+
+ :root {--mermaid-font-zoom:1em ;}
+</style>
+</head>
+<body class='typora-export'>
+<div id='write'  class=''><h1><a name="中文空间语义理解评测" class="md-header-anchor"></a><span>中文空间语义理解评测</span></h1><hr /><p><strong><span>最新消息</span></strong></p><ul><li><span>报名链接开放： </span><a href='https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill' target='_blank' class='url'>https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill</a></li></ul><hr /><h2><a name="一任务简介" class="md-header-anchor"></a><span>一、任务简介</span></h2><p><span>语言交际中存在大量的空间语义信息，理解这些信息是非常重要的。著名认知语言学家Jackendoff在其概念语义学理论中也指出空间结构是语言系统的四种基本结构之一（其余三个层面：语音、句法、概念语义）</span><sup><strong><code>1</code></strong></sup><span>。</span></p><p><span>通常认为，对文本中空间信息的理解，不仅需要掌握句段中字词的语义，还需要具备一定的常识或世界知识，甚至是超出语言范畴的空间想象等认知能力。考察机器的空间认知能力是一项系统性的工作。作为初步尝试，北京大学与复旦大学的研究团队针对中文文本中空间语义的正误判断与归因，提出了本次评测任务。</span></p><p><span>如果机器具备了空间认知能力，那么它不仅要能够识别常规、正确的空间信息，还应该能够识别异常、错误的空间信息。如对于“在四面签一个名字”，人类能够意识到其中存在异常，因为“一个名字”通常不会签在“四面”；又如对于“走过火车下”，人类能够清楚地知道通常不会有人在火车的“下”方走路。可以看出，这些异常是多种多样的，具体包括：跟空间语义理解有关的词语搭配问题、上下文信息冲突问题、与常识冲突的问题等。为了方便进行不同的后续处理，机器在识别异常的同时，也需要能够对异常的原因加以解释。</span></p><p><span>基于上述观点，本次评测试图考察计算机的以下能力：（1）计算机能否正确区分正常与错误的空间语义表达；（2）计算机能否解释空间语义表达错误的原因；（3）计算机处理上述两个任务的综合能力。对应为如下三个任务：</span></p><p><strong><span>子任务1，中文空间语义正误判断</span></strong><span>：要求参赛系统对给定的中文文本中是否存在空间关系异常加以判断。</span></p><p><strong><span>子任务2，中文空间语义异常归因合理性判断</span></strong><span>：要求参赛系统判断给定的归因是否可以用来解释给定的中文文本中所存在的空间关系异常。这些异常被分为词语搭配问题、语义问题、语境问题、常识问题以及其他问题（详情请看后文介绍）。</span></p><p><strong><span>子任务3，中文空间语义判断与归因联合任务</span></strong><span>：参赛系统首先需要判断给定的中文文本中是否存在空间关系异常，如果存在异常，则再判断所给定的归因是否可以用来解释这一异常。</span></p><hr /><h2><a name="二数据介绍" class="md-header-anchor"></a><span>二、数据介绍</span></h2><p><span>数据以json格式发布（参见后附数据样例），各个字段说明如表1所示。</span></p><blockquote><p><strong><span>表1    数据字段说明</span></strong></p><figure><table><thead><tr><th><span>字段</span></th><th><span>类型</span></th><th><span>说明</span></th></tr></thead><tbody><tr><td><code>qID</code></td><td><span>int</span></td><td><span>试题编号。</span></td></tr><tr><td><code>context</code></td><td><span>string</span></td><td><span>文本材料。</span></td></tr><tr><td><code>reason</code></td><td><span>string</span></td><td><span>子任务2及子任务3中，对文本材料中空间关系异常的归因。</span></td></tr><tr><td><code>judge1</code></td><td><span>bool</span></td><td><span>子任务1中，对文本是否存在空间异常的判断。</span><code>true</code><span>表示句子成立，无异常；</span><code>false</code><span>表示句子不成立，有异常。</span></td></tr><tr><td><code>judge2</code></td><td><span>bool</span></td><td><span>子任务2及子任务3中，对归因是否能够解释材料的空间关系异常的判断。</span><code>true</code><span>表示归因成立；</span><code>false</code><span>表示归因不成立。</span></td></tr></tbody></table></figure></blockquote><p><span>评测任务中的语料主要来源于CCL语料库，涵盖小说、散文、词典等文体。需注意实际使用的文本材料是在原始语料的基础上，替换了具有空间方位意义的词语之后，再进行人工标注和检验后得到的。最终得到7782段有效文本材料，合计86万字。各段材料字数的平均值为110.52，标准差为53.00。这些材料根据性质和任务需要被划分至评测的三个任务的不同数据集中，具体分布情况如表2所示</span><sup><strong><code>2</code></strong></sup><span>。</span></p><blockquote><p><strong><span>表2    各子任务的数据集分布情况</span></strong></p><figure><table><thead><tr><th><span>子任务</span></th><th><span>训练集</span></th><th><span>验证集</span></th><th><span>测试集</span></th><th><span>总计</span></th><th><span>备注</span></th></tr></thead><tbody><tr><td><span>1、中文空间语义正误判断</span></td><td><span>4k+</span></td><td><span>800~</span></td><td><span>800~</span></td><td><span>5.6k+</span></td><td><span>三个数据集之间，所使用的原始语料没有交集，下同。</span></td></tr><tr><td><span>2、中文空间语义异常归因合理性判断</span></td><td><span>8k+</span></td><td><span>2.5k+</span></td><td><span>2.5k+</span></td><td><span>14k+</span></td><td><span>(1)任一数据集所使用的</span><code>context</code><span>与子任务1的验证集和测试集无交集。(2)训练集使用的</span><code>context</code><span>与子任务1的训练集有交集。</span></td></tr><tr><td><span>3、中文空间语义判断与归因联合任务</span></td><td><span>0</span></td><td><span>1k+</span></td><td><span>1k+</span></td><td><span>2.5k~</span></td><td><span>(1)不提供训练集。(2)验证集和测试集中使用的</span><code>context</code><span>与子任务1的相应数据集相同。</span></td></tr></tbody></table></figure></blockquote><p><span>在子任务2及子任务3中，使用了多种归因类型。类型之间并不完全独立，每段材料可能对应多种归因类型。参赛系统不需要在归因类型之中做选择，而只需要判断所提供的类型是否适合用来解释材料中的错误。各类型的简介如表3所示。每种类型的具体数据样例请看文后附加材料。</span></p><blockquote><p><strong><span>表3    归因类型说明</span></strong></p><figure><table><thead><tr><th><span>类型</span></th><th><span>内部编号</span></th><th><span>描述</span></th><th><span>形式</span></th></tr></thead><tbody><tr><td><span>搭配问题</span></td><td><span>A</span></td><td><code>text1</code><span>、</span><code>text2</code><span>不能搭配，主要是因为语法、韵律、习惯等因素，通常不会这样说，而不是因为它们语义不兼容。</span></td><td><span>“</span><code>text1</code><span>”和“</span><code>text2</code><span>”不宜搭配</span></td></tr><tr><td><span>语义问题</span></td><td><span>B</span></td><td><code>text1</code><span>、</span><code>text2</code><span>通常不一起使用，主要是因为它们语义通常不兼容，而不是因为语法、韵律、习惯等因素。</span></td><td><span>“</span><code>text1</code><span>”和“</span><code>text2</code><span>”语义冲突</span></td></tr><tr><td><span>语境问题</span></td><td><span>C</span></td><td><code>text1</code><span>、</span><code>text2</code><span>之间存在冲突，主要是因为在当前语境中，具体信息存在冲突，而不是因为二者语义不兼容。</span></td><td><span>“</span><code>text1</code><span>”与上下文“</span><code>text2</code><span>”存在信息冲突</span></td></tr><tr><td><span>常识问题</span></td><td><span>D</span></td><td><code>text1</code><span>所描述的内容不符合常识，这个常识由</span><code>commonsense</code><span>描述。</span></td><td><span>“</span><code>text1</code><span>”与常识不符[：</span><code>commonsense</code><span>]</span></td></tr></tbody></table></figure></blockquote><hr /><h2><a name="三评价标准" class="md-header-anchor"></a><span>三、评价标准</span></h2><p><span>对于</span><strong><span>子任务一</span></strong><span>和</span><strong><span>子任务二</span></strong><span>，使用准确率（Acc，Accuracy）作为评价指标。</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Acc = 命中正确答案的题数 / 题目总数</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 19px;"></div><div class="CodeMirror-gutters" style="display: none; height: 19px;"></div></div></div></pre><p><span>对于</span><strong><span>子任务3</span></strong><span>，使用F1值作为评价指标。公式如下，其中 </span><em><span>P</span></em><span> 、 </span><em><span>R</span></em><span> 分别代表准确率（Precision）和召回率（Recall）：</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">F1 = 2*P*R / (P+R)</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 19px;"></div><div class="CodeMirror-gutters" style="display: none; height: 19px;"></div></div></div></pre><p><em><span>P</span></em><span> 和 </span><em><span>R</span></em><span> 的计算公式如下，其中 </span><em><span>TP</span></em><span> 、 </span><em><span>TN</span></em><span> 、 </span><em><span>FP</span></em><span> 、 </span><em><span>FN</span></em><span> 分别代表命中数量、正确拒绝数量、误报数量、漏报数量，下标表示</span><code>judge</code><span>所属的步骤。</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">P = TP_2 / (TN_1 + FN_1)</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 19px;"></div><div class="CodeMirror-gutters" style="display: none; height: 19px;"></div></div></div></pre><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">R = TP_2 / (TN_1 + FP_1)</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 19px;"></div><div class="CodeMirror-gutters" style="display: none; height: 19px;"></div></div></div></pre><p><span>注意上面公式中 </span><em><span>TP_2</span></em><span> 只计算</span><code>judge1</code><span>判断为</span><code>false</code><span>，且</span><code>judge1</code><span>和</span><code>judge2</code><span>都判断正确的情况。</span></p><p><strong><span>最终排名</span></strong><span>：在所有参赛队伍的评测结果产生之后，计算每个任务下各个队伍的标准分数（Z-score），对三个任务的标准分数取平均，作为最终排名的依据。标准分数计算公式如下，其中 </span><em><span>X̄</span></em><span> 为平均数， </span><em><span>s</span></em><span> 为标准差：</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Z = (X - X̄) / s</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 19px;"></div><div class="CodeMirror-gutters" style="display: none; height: 19px;"></div></div></div></pre><p>&nbsp;</p><h5><a name="基线系统" class="md-header-anchor"></a><span>基线系统</span></h5><p><span>我们将提供一个基线系统供参赛队伍参考，该系统将于4月5日发布。</span></p><hr /><h2><a name="四预计赛程" class="md-header-anchor"></a><span>四、预计赛程</span></h2><ul><li><p><span>评测开始（2021年4月1日）</span></p><ul><li><span>发布报名系统，开放报名</span></li><li><span>发布训练集以及不带答案的验证集</span></li></ul></li><li><p><span>第一阶段（2021年4月5日—2021年6月18日，近3个月）：</span></p><ul><li><span>发布基线系统</span></li><li><span>发布排行榜页面、结果提交页面</span></li><li><span>参赛者需要提交验证集结果，排行榜按验证集成绩排序</span></li><li><span>参赛者每周可提交3次模型，排行榜每天更新</span></li><li><span>此阶段可以不提交模型</span></li></ul></li><li><p><span>第二阶段（2021年6月19日—2021年7月16日，约1个月）：</span></p><ul><li><span>此阶段开始的同时，报名截止</span></li><li><span>发布验证集的答案以及不带答案的测试集</span></li><li><span>参赛者需要提交测试集结果，排行榜按测试集成绩排序</span></li><li><span>参赛者每周可提交3次模型，排行榜每天更新</span></li><li><span>此阶段不提交模型视为弃权</span></li></ul></li><li><p><span>第三阶段（2021年7月16日—2021年7月20日，共5天）：</span></p><ul><li><span>参赛者选择1个模型作为最终参赛模型提交</span></li><li><span>此阶段不提交模型视为弃权</span></li></ul></li><li><p><span>总结回顾阶段（2021年7月23日—2021年8月15日）</span></p><ul><li><span>公布结果并邀请优秀评测单位撰写技术报告（2021年7月23日）</span></li><li><span>技术报告收取截止（2021年7月23日）</span></li><li><span>CCL 2021评测研讨会（2021年8月13日—2021年8月15日）</span></li></ul></li></ul><hr /><h2><a name="五报名方式" class="md-header-anchor"></a><span>五、报名方式</span></h2><p><span>请填写在线报名表： </span><a href='https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0'><span>点击此链接填写报名表</span></a><span> 。</span></p><p><span>请注意：</span></p><ol start='' ><li><span>报名时间：2021年4月1日至2021年6月19日；</span></li><li><span>一个团队只需由负责人或联系人填写一次报名表单即可；</span></li><li><span>报名即表示已经阅读并承诺遵守参赛协议（ </span><a href='https://github.com/2030NLP/SpaCE2021/blob/main/Agreement.md'><span>Agreement.md</span></a><span> ）；</span></li><li><span>如有其他问题，请直接联系评测委员会：</span><a href='mailto:sc_eval@163.com' target='_blank' class='url'>sc_eval@163.com</a><span> ；</span></li><li><span>主办方会在每个工作日检查新的报名队伍并通过邮件发送回执。</span></li></ol><p>&nbsp;</p><h2><a name="六奖项设置" class="md-header-anchor"></a><span>六、奖项设置</span></h2><p><strong><span>评测奖金由华为公司赞助</span></strong><span>，奖池共计40000元：</span></p><p><span>一等奖（1名），奖金15000元；</span></p><p><span>二等奖（2名），各奖8000元；</span></p><p><span>三等奖（3名），各奖3000元。</span></p><p>&nbsp;</p><h2><a name="七委员会" class="md-header-anchor"></a><span>七、委员会</span></h2><p><span>单位：北京大学，复旦大学</span></p><p><span>主席：詹卫东，穗志方（北京大学）；邱锡鹏（复旦大学）</span></p><p><span>委员：孙春晖，唐乾桐，秦梓巍，董青秀，李卓，张洁（北京大学）；李孝男（复旦大学）等</span></p><p><span>联系方式：</span><a href='mailto:sc_eval@163.com' target='_blank' class='url'>sc_eval@163.com</a></p><hr /><blockquote><p><strong><span>脚注</span></strong></p><p><code>1</code><span> 参看 Jackendoff（2002）著作《Foundations of language: Brain, meaning, grammar, evolution》第1.2、1.5节。</span></p><p><code>2</code><span> 每段材料配合不同归因将会形成不同题目，因此题目数量大于材料数量。</span></p></blockquote></div>
+</body>
+</html>
