@@ -25,4 +25,4 @@
 
 **任务网址**：https://github.com/2030NLP/SpaCE2021
 
-**依托会议**：[CCL2021](http://cips-cl.org/static/CCL2021/index.html)
+**依托会议**：[CCL2021](http://cips-cl.org/static/CCL2021/cclEval/taskEvaluation/index.html)
