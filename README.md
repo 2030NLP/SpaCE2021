@@ -4,7 +4,9 @@
 
 **最新消息**
 
-- 报名链接开放： https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill
+- `2021-04-01` 报名链接开放： [我要报名](https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill)
+- `2021-04-01` 数据集 [pack1](https://github.com/2030NLP/SpaCE2021/tree/main/data) 发布，使用前请阅读 [数据集使用许可](https://github.com/2030NLP/SpaCE2021/blob/main/data/LICENSE.md)
+- `2021-04-01` 供参考的评分脚本： [evaluate.py](https://github.com/2030NLP/SpaCE2021/blob/main/ref/evaluate.py)
 
 ---
 
@@ -50,7 +52,7 @@
 > | 2、中文空间语义异常归因合理性判断 | 8k+    | 2.5k+  | 2.5k+  | 14k+  | (1)任一数据集所使用的`context`与子任务1的验证集和测试集无交集。(2)训练集使用的`context`与子任务1的训练集有交集。 |
 > | 3、中文空间语义判断与归因联合任务 | 0      | 1k+    | 1k+    | 2.5k~ | (1)不提供训练集。(2)验证集和测试集中使用的`context`与子任务1的相应数据集相同。 |
 
-在子任务2及子任务3中，使用了多种归因类型。类型之间并不完全独立，每段材料可能对应多种归因类型。参赛系统不需要在归因类型之中做选择，而只需要判断所提供的类型是否适合用来解释材料中的错误。各类型的简介如表3所示。每种类型的具体数据样例请看文后附加材料。
+在子任务2及子任务3中，使用了多种归因类型。类型之间并不完全独立，每段材料可能对应多种归因类型。参赛系统不需要在归因类型之中做选择，而只需要判断所提供的类型是否适合用来解释材料中的错误。各类型的简介如表3所示。每种类型的具体数据样例请看 [样例](https://github.com/2030NLP/SpaCE2021/blob/main/ref/sample.md) 。
 
 > **表3    归因类型说明**
 >
@@ -89,7 +91,7 @@ R = (TP_2 + TN_2) / (TN_1 + FP_1)
 
 注意上面公式中 *TP_2* 和 *TN_2* 只计算`judge1`判断为`false` 的情况。
 
-评分的计算脚本可参考： [evaluate.py](https://github.com/2030NLP/SpaCE2021/blob/main/ref/evaluate.py)
+评分的计算脚本可参考： [evaluate.py](https://github.com/2030NLP/SpaCE2021/blob/main/ref/evaluate.py) （注：此脚本仅供参考，发现任何问题请联系我们）。
 
 **最终排名**：在所有参赛队伍的评测结果产生之后，计算每个任务下各个队伍的标准分数（Z-score），对三个任务的标准分数取平均，作为最终排名的依据。标准分数计算公式如下，其中 *X̄* 为平均数， *s* 为标准差：
 
