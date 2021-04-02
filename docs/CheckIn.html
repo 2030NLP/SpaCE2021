@@ -138,6 +138,7 @@
             </div>
             <div class="col-12">
                 <div>
+                  <button class="btn btn-sm btn-danger" v-on:click="letter=''">先不办了</button>
                   <button class="btn btn-sm btn-primary" v-on:click="written">办妥了</button>
                 </div>
             </div>
@@ -205,7 +206,7 @@
                   <td>{{team.group}}</td>
                   <td><span v-if="team.checked2" class="badge bg-success">已确认</span><span v-if="!team.checked2" class="badge bg-secondary">未确认</span></td>
                   <td>
-                    <span v-if="team.checked2" class="badge bg-success">已发送</span><span v-if="team.checked1&&!team.checked2" class="badge bg-primary">已发送</span><span v-if="!team.checked1&&!team.checked2" class="badge bg-danger">未发送</span><span v-if="!team.checked1&&team.checked2" class="badge bg-danger">未发送但居然确认过了?</span>
+                    <span v-if="team.checked2" class="badge bg-success">{{team.checked_by}}已发送</span><span v-if="team.checked1&&!team.checked2" class="badge bg-primary">{{team.checked_by}}已发送</span><span v-if="!team.checked1&&!team.checked2" class="badge bg-danger">未发送</span><span v-if="!team.checked1&&team.checked2" class="badge bg-danger">未发送但居然确认过了?</span>
                     <button v-if="!team.checked2" class="btn btn-sm btn-light" v-on:click="write(team)">撰写</button>
                   </td>
                 </tr>

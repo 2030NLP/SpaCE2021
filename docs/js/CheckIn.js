@@ -123,7 +123,7 @@ From CCL2021中文空间语义理解评测委员会`;
             self.letter = "";
             let team = self.letter_to;
             HappyTeam.object(team.objectId).get().then((x)=>{
-                x.update({'checked1': true});
+                x.update({'checked1': true, 'checked_by': self.worker, });
                 // the_vue.push_alert('info', x);
                 self.refresh();
             }).catch(({ error }) => self.push_alert('danger', error));
