@@ -5,6 +5,7 @@ LC.init({
     serverURL: "https://wauvgegb.lc-cn-n1-shared.com",
 });
 const Team = LC.CLASS("Team");
+const HappyTeam = LC.CLASS("TeamAgain");
 
 AV.init({
     appId: "waUVgegbKQOGtRrF9lQE7PxE-gzGzoHsz",
@@ -111,9 +112,16 @@ var the_vue = new Vue({
                     if (shouldSubmit) {
                         Team.add(self.form)
                             .then(() => {
-                                self.push_alert('success', '提交成功！');
-                                self.submission_succeeded = true;
-                                self.history.push(self.form);
+                                self.push_alert('info', '正在提交，请稍等……');
+                                let thing = self.form;
+                                thing.checked1 = false;
+                                thing.checked2 = false;
+                                HappyTeam.add(self.form)
+                                .then(() => {
+                                    self.push_alert('success', '提交成功！');
+                                    self.submission_succeeded = true;
+                                    self.history.push(self.form);
+                                }).catch(({ error }) => self.push_alert('danger', error));
                             })
                             .catch(({ error }) => self.push_alert('danger', error));
                     }; // else {self.push_alert('danger', '出了点问题…')};
