@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="static/css/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>中文空间语义评测 任务说明</title>
+</head>
+<body>
+<div class="head-nav">
+    <ul>
+        <li><a style="font-weight:bold" href="index.html">主页</a></li>
+        <li><a href="task.html">任务说明</a></li>
+        <li><a href="agreement.html">竞赛须知</a></li>
+        <li><a href="news.html">最新公告</a></li>
+        <li><a href="rank.html">竞赛排名</a></li>
+        <li><a href="submit.html">提交方式</a></li>
+        <li><a href="registration.html">报名</a></li>
+
+    </ul>
+</div>
+<div id="neck"></div>
+<div id="write">
+        <h2><a name="一任务介绍" class="md-header-anchor"></a><span>一、任务介绍</span></h2>
+        <p>
+            <span>本次评测试图考察计算机的以下能力：（1）计算机能否正确区分正常与错误的空间语义表达；（2）计算机能否解释空间语义表达错误的原因；（3）计算机处理上述两个任务的综合能力。对应为如下三个任务：</span>
+        </p>
+        <p><strong><span>子任务1，中文空间语义正误判断</span></strong><span>：要求参赛系统对给定的中文文本中是否存在空间关系异常加以判断。</span></p>
+        <p><strong><span>子任务2，中文空间语义异常归因合理性判断</span></strong><span>：要求参赛系统判断给定的归因是否可以用来解释给定的中文文本中所存在的空间关系异常。这些异常被分为词语搭配问题、语义问题、语境问题、常识问题以及其他问题（详情请看后文介绍）。</span>
+        </p>
+        <p><strong><span>子任务3，中文空间语义判断与归因联合任务</span></strong><span>：参赛系统首先需要判断给定的中文文本中是否存在空间关系异常，如果存在异常，则再判断所给定的归因是否可以用来解释这一异常。</span>
+        </p>
+        <hr/>
+        <h2><a name="二数据介绍" class="md-header-anchor"></a><span>二、数据介绍</span></h2>
+        <p><span>数据以json格式发布（参见后附数据样例），各个字段说明如表1所示。</span></p>
+        <blockquote><p><strong><span>表1    数据字段说明</span></strong></p>
+            <figure>
+                <table>
+                    <thead>
+                    <tr>
+                        <th><span>字段</span></th>
+                        <th><span>类型</span></th>
+                        <th><span>说明</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>qID</code></td>
+                        <td><span>int</span></td>
+                        <td><span>试题编号。</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>context</code></td>
+                        <td><span>string</span></td>
+                        <td><span>文本材料。</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>reason</code></td>
+                        <td><span>string</span></td>
+                        <td><span>子任务2及子任务3中，对文本材料中空间关系异常的归因。</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>judge1</code></td>
+                        <td><span>bool</span></td>
+                        <td>
+                            <span>子任务1中，对文本是否存在空间异常的判断。</span><code>true</code><span>表示句子成立，无异常；</span><code>false</code><span>表示句子不成立，有异常。</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>judge2</code></td>
+                        <td><span>bool</span></td>
+                        <td><span>子任务2及子任务3中，对归因是否能够解释材料的空间关系异常的判断。</span><code>true</code><span>表示归因成立；</span><code>false</code><span>表示归因不成立。</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </figure>
+        </blockquote>
+        <p><span>评测任务中的语料主要来源于CCL语料库，涵盖小说、散文、词典等文体。需注意实际使用的文本材料是在原始语料的基础上，替换了具有空间方位意义的词语之后，再进行人工标注和检验后得到的。最终得到7782段有效文本材料，合计86万字。各段材料字数的平均值为110.52，标准差为53.00。这些材料根据性质和任务需要被划分至评测的三个任务的不同数据集中，具体分布情况如表2所示</span><sup><strong><code>2</code></strong></sup><span>。</span>
+        </p>
+        <blockquote><p><strong><span>表2    各子任务的数据集分布情况</span></strong></p>
+            <figure>
+                <table>
+                    <thead>
+                    <tr>
+                        <th><span>子任务</span></th>
+                        <th><span>训练集</span></th>
+                        <th><span>验证集</span></th>
+                        <th><span>测试集</span></th>
+                        <th><span>总计</span></th>
+                        <th><span>备注</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span>1、中文空间语义正误判断</span></td>
+                        <td><span>4k+</span></td>
+                        <td><span>800~</span></td>
+                        <td><span>800~</span></td>
+                        <td><span>5.6k+</span></td>
+                        <td><span>三个数据集之间，所使用的原始语料没有交集，下同。</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>2、中文空间语义异常归因合理性判断</span></td>
+                        <td><span>8k+</span></td>
+                        <td><span>2.5k+</span></td>
+                        <td><span>2.5k+</span></td>
+                        <td><span>14k+</span></td>
+                        <td><span>(1)任一数据集所使用的</span><code>context</code><span>与子任务1的验证集和测试集无交集。(2)训练集使用的</span><code>context</code><span>与子任务1的训练集有交集。</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span>3、中文空间语义判断与归因联合任务</span></td>
+                        <td><span>0</span></td>
+                        <td><span>1k+</span></td>
+                        <td><span>1k+</span></td>
+                        <td><span>2.5k~</span></td>
+                        <td><span>(1)不提供训练集。(2)验证集和测试集中使用的</span><code>context</code><span>与子任务1的相应数据集相同。</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </figure>
+        </blockquote>
+        <p><span>在子任务2及子任务3中，使用了多种归因类型。类型之间并不完全独立，每段材料可能对应多种归因类型。参赛系统不需要在归因类型之中做选择，而只需要判断所提供的类型是否适合用来解释材料中的错误。各类型的简介如表3所示。每种类型的具体数据样例请看文后附加材料。</span>
+        </p>
+        <blockquote><p><strong><span>表3    归因类型说明</span></strong></p>
+            <figure>
+                <table>
+                    <thead>
+                    <tr>
+                        <th><span>类型</span></th>
+                        <th><span>内部编号</span></th>
+                        <th><span>描述</span></th>
+                        <th><span>形式</span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span>搭配问题</span></td>
+                        <td><span>A</span></td>
+                        <td><code>text1</code><span>、</span><code>text2</code><span>不能搭配，主要是因为语法、韵律、习惯等因素，通常不会这样说，而不是因为它们语义不兼容。</span>
+                        </td>
+                        <td><span>“</span><code>text1</code><span>”和“</span><code>text2</code><span>”不宜搭配</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>语义问题</span></td>
+                        <td><span>B</span></td>
+                        <td><code>text1</code><span>、</span><code>text2</code><span>通常不一起使用，主要是因为它们语义通常不兼容，而不是因为语法、韵律、习惯等因素。</span>
+                        </td>
+                        <td><span>“</span><code>text1</code><span>”和“</span><code>text2</code><span>”语义冲突</span></td>
+                    </tr>
+                    <tr>
+                        <td><span>语境问题</span></td>
+                        <td><span>C</span></td>
+                        <td><code>text1</code><span>、</span><code>text2</code><span>之间存在冲突，主要是因为在当前语境中，具体信息存在冲突，而不是因为二者语义不兼容。</span>
+                        </td>
+                        <td><span>“</span><code>text1</code><span>”与上下文“</span><code>text2</code><span>”存在信息冲突</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span>常识问题</span></td>
+                        <td><span>D</span></td>
+                        <td><code>text1</code><span>所描述的内容不符合常识，这个常识由</span><code>commonsense</code><span>描述。</span>
+                        </td>
+                        <td><span>“</span><code>text1</code><span>”与常识不符[：</span><code>commonsense</code><span>]</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </figure>
+        </blockquote>
+        <hr/>
+        <h2><a name="三评价标准" class="md-header-anchor"></a><span>三、评价标准</span></h2>
+        <p><span>对于</span><strong><span>子任务一</span></strong><span>和</span><strong><span>子任务二</span></strong><span>，使用准确率（Acc，Accuracy）作为评价指标。</span>
+        </p>
+        <pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div
+                class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div
+                style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea
+                autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div
+                class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler"
+                                                                                     cm-not-content="true"></div><div
+                class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer"
+                                                             style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div
+                style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div
+                role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div
+                class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div
+                class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline"
+                                                                 style="position: relative;"><div
+                class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div
+                class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre
+                class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Acc = 命中正确答案的题数 / 题目总数</span></pre></div></div></div></div></div></div><div
+                style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div
+                class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre>
+        <p>
+            <span>对于</span><strong><span>子任务3</span></strong><span>，使用F1值作为评价指标。公式如下，其中 </span><em><span>P</span></em><span> 、 </span><em><span>R</span></em><span> 分别代表准确率（Precision）和召回率（Recall）：</span>
+        </p>
+        <pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div
+                class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div
+                style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea
+                autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div
+                class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler"
+                                                                                     cm-not-content="true"></div><div
+                class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer"
+                                                             style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div
+                style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div
+                role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div
+                class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div
+                class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline"
+                                                                 style="position: relative;"><div
+                class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div
+                class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre
+                class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">F1 = 2*P*R / (P+R)</span></pre></div></div></div></div></div></div><div
+                style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div
+                class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre>
+        <p>
+            <em><span>P</span></em><span> 和 </span><em><span>R</span></em><span> 的计算公式如下，其中 </span><em><span>TP</span></em><span> 、 </span><em><span>TN</span></em><span> 、 </span><em><span>FP</span></em><span> 、 </span><em><span>FN</span></em><span> 分别代表命中数量、正确拒绝数量、误报数量、漏报数量，下标表示</span><code>judge</code><span>所属的步骤。</span>
+        </p>
+        <pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div
+                class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div
+                style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea
+                autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div
+                class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler"
+                                                                                     cm-not-content="true"></div><div
+                class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer"
+                                                             style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div
+                style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div
+                role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div
+                class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div
+                class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline"
+                                                                 style="position: relative;"><div
+                class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div
+                class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre
+                class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">P = TP_2 / (TN_1 + FN_1)</span></pre></div></div></div></div></div></div><div
+                style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div
+                class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre>
+        <pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div
+                class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div
+                style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea
+                autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div
+                class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler"
+                                                                                     cm-not-content="true"></div><div
+                class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer"
+                                                             style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div
+                style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div
+                role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div
+                class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div
+                class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline"
+                                                                 style="position: relative;"><div
+                class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div
+                class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre
+                class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">R = TP_2 / (TN_1 + FP_1)</span></pre></div></div></div></div></div></div><div
+                style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div
+                class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre>
+        <p><span>注意上面公式中 </span><em><span>TP_2</span></em><span> 只计算</span><code>judge1</code><span>判断为</span><code>false</code><span>，且</span><code>judge1</code><span>和</span><code>judge2</code><span>都判断正确的情况。</span>
+        </p>
+        <p><strong><span>最终排名</span></strong><span>：在所有参赛队伍的评测结果产生之后，计算每个任务下各个队伍的标准分数（Z-score），对三个任务的标准分数取平均，作为最终排名的依据。标准分数计算公式如下，其中 </span><em><span>X̄</span></em><span> 为平均数， </span><em><span>s</span></em><span> 为标准差：</span>
+        </p>
+        <pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang=""><div
+                class="CodeMirror cm-s-inner CodeMirror-wrap" lang=""><div
+                style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea
+                autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div
+                class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler"
+                                                                                     cm-not-content="true"></div><div
+                class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer"
+                                                             style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div
+                style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div
+                role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div
+                class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div
+                class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline"
+                                                                 style="position: relative;"><div
+                class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div
+                class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre
+                class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">Z = (X - X̄) / s</span></pre></div></div></div></div></div></div><div
+                style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div
+                class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre>
+        <p>&nbsp;</p><h5><a name="数据集" class="md-header-anchor"></a><span>数据集</span></h5>
+        <p><span>数据集 <a href="https://github.com/2030NLP/SpaCE2021/tree/main/data">pack1</a> 发布</span></p>
+        <p>&nbsp;</p><h5><a name="评测脚本" class="md-header-anchor"></a><span>评测脚本</span></h5>
+        <p><span>供参考的评测分脚本 <a href="static/source/evaluate.py">evaluate.py</a> </span></p>
+        <p>&nbsp;</p><h5><a name="基线系统" class="md-header-anchor"></a><span>基线系统</span></h5>
+        <p><span>我们将提供一个基线系统供参赛队伍参考，该系统将于4月5日发布。</span></p>
+
+</div>
+
+<div id="feet"></div>
+<div class="jumbotron" style="-webkit-border-radius: 0;
+                            margin-bottom:0;
+                            -moz-border-radius: 0;
+                            border-radius: 0;
+                            width:100%;
+                            height:270px;
+                            top:100%;
+                            text-align: center;
+                            background-color: #333;
+                            color: white;
+">
+    <br>
+    <p class="text-center">
+        <font size="2">主办单位：北京大学&nbsp;&nbsp;&nbsp; 复旦大学</font>
+        <br/>
+        <a href="https://icl.pku.edu.cn/"><font size="2" color="white">北京大学计算语言学研究所</font></a>
+        <br/>
+        <!--<font size="2">-->
+        <!--站点访问量&nbsp;&nbsp;|&nbsp;&nbsp;-->
+        <!--{% for hit in hits_list %}-->
+        <!--<code>{{ hit }}</code>-->
+        <!--{% endfor %}-->
+        <!--</font>-->
+        <!--<br/>-->
+        <font size="2">联系方式：sc_eval@163.com</font>
+        <br/>
+    </p>
+    <p class="text-center">
+
+        <a href="https://www.pku.edu.cn" title="北京大学" target="_blank">
+            <img src="static/images/pku_logo.png" height="50px">
+        </a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="https://www.fudan.edu.cn/" title="复旦大学" target="_blank">
+            <img src="static/images/fdu_logo.png" height="50px">
+        </a>
+    </p>
+</div>
+</body>
+</html>
