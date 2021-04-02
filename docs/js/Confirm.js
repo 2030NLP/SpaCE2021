@@ -16,35 +16,56 @@ const HappyTeam = LC.CLASS("TeamAgain");
 var the_vue = new Vue({
     el: '#bodywrap',
     data: {
-        "fields": ['worker', 'logged_in', 'has_power', 'teams', 'happy_teams'],
-        "worker": "",
-        "confirm_link": "https://2030nlp.github.io/SpaCE2021/Confirm.html",
-        "signal": "",
+        "form": {
+            team_name: "",
+            email: "",
+        },
+        "confirmed": false,
+        "confirm_history": [],
+        //
+        "fields": ["form", "confirm_history", "confirmed"],
         "ui": {
-            // current_page: 'temporary',
             modal_open: 0,
-            modal_type: 'G',
             nav_collapsed: 1,
             alerts_last_idx: 1,
             alerts: [],
         },
-        "logged_in": false,
-        "has_power": false,
-        "teams": [],
-        "happy_teams": [],
-        "letter": "",
-        "letter_title": "",
-        "letter_to": {},
         //
     },
     computed: {
         user_agent: function() {
             return navigator.userAgent;
         },
+        check_all: function() {
+            return true;
+        },
     },
 
 
     methods: {
+
+        submitIt: function() {
+            let self = this;
+            HappyTeam.where('team_name','==',the_vue.form.team_name)
+                .where('email','==',the_vue.form.email)
+                .find().then((x)=>{
+                    if (x.length==1) {
+                        // self.push_alert('info', '是的！');
+                        x[0].update({'checked2': true}).then((x)=>{
+                            self.confirmed = true;
+                            self.confirm_history.push(self.form);
+                            self.form = {team_name: "", email: "",};
+                        }).catch(({ error }) => self.push_alert('danger', error));
+                    } else {
+                        self.push_alert('danger', '队名或邮箱存在错误，无法匹配报名信息！');
+                    };
+                }).catch(({ error }) => self.push_alert('danger', error));
+        },
+        reset() {
+            let self = this;
+            self.confirmed = false;
+            self.form = {team_name: "", email: "",};
+        },
 
         refresh: function() {
             let self = this;
@@ -71,68 +92,20 @@ var the_vue = new Vue({
 
         logIn: function() {
             let self = this;
-            LC.User.login('pku', self.signal).then((x) => {
-                self.signal = "";
+            LC.User.login('i', 'i').then((x) => {
+                self.push_alert('success', `成功连接服务器，请继续操作。`);
                 self.logged_in = true;
-                self.has_power = (LC.User.current() && (LC.User.current().data.username=="pku"));
-                self.push_alert('success', `${self.worker}你好！`);
                 self.refresh();
             }).catch(({ error }) => self.push_alert('danger', error));
         },
 
         logOut: function() {
             let self = this;
-            if (LC.User.current() && (LC.User.current().data.username=="pku")) {
-                self.push_alert('success', `再见${self.worker}！`);
-            } else {
-                self.push_alert('info', `已退出登录。`);
-            };
             LC.User.logOut();
             self.signal = "";
             self.logged_in = false;
-            self.has_power = (LC.User.current() && (LC.User.current().data.username=="pku"));
+            self.push_alert('success', `再见${self.worker}！`);
             self.refresh();
-        },
-
-        write: function(team) {
-            let self = this;
-            self.letter_to = team;
-            let nn = team.people.split('，').length;
-            let mm = nn > 1;
-            self.letter_title = `【SpaCE2021】请确认「${team.team_name}」队伍报名信息`;
-            self.letter = `尊敬的 ${team.leader} 先生/女士${mm?'及队员们':''}：
-　　${mm?'你们':'您'}好！
-　　我们是“CCL2021中文空间语义理解评测(SpaCE2021)”赛事的工作人员，现在已经收到了${mm?'你们':'您'}的报名信息。请检查：
-
-　　　　队名：${team.team_name}
-　　　　来源：${team.team_type}
-　　　　队长：${team.leader}
-　　　　队员：${team.people}
-　　　　邮箱：${team.email}
-　　　　手机：${team.phone}
-　　　　单位：${team.institution}
-　　　　单位简称：${team.institution2}
-　　　　子团体：${team.group}
-　　　　证件类型：${team.card_type}
-　　　　证件号码：${team.card_id}
-
-　　如果存在问题，请回复邮件与我们联系。
-　　如果没有问题，请访问 ${self.confirm_link} 进行确认。谢谢！
-
-From CCL2021中文空间语义理解评测委员会`;
-        },
-
-        written: function() {
-            let self = this;
-            self.letter_title = "";
-            self.letter = "";
-            let team = self.letter_to;
-            HappyTeam.object(team.objectId).get().then((x)=>{
-                x.update({'checked1': true, 'checked_by': self.worker, });
-                // the_vue.push_alert('info', x);
-                self.refresh();
-            }).catch(({ error }) => self.push_alert('danger', error));
-            self.letter_to = {};
         },
 
         toggle_modal: function(type) {
@@ -159,7 +132,7 @@ From CCL2021中文空间语义理解评测委员会`;
         readDataFromLocalStorage: function() {
             let self = this;
             for (let field of self.fields) {
-                if (window.localStorage[field] && window.localStorage[field]!="undefined") {
+                if (window.localStorage[field]) {
                     self[field] = JSON.parse(window.localStorage[field]);
                 };
             };
@@ -178,18 +151,14 @@ From CCL2021中文空间语义理解评测委员会`;
     created() {
         let self = this;
         self.readDataFromLocalStorage();
-        if (LC.User.current() && (LC.User.current().data.username!="pku")) {
+        if (LC.User.current() && (LC.User.current().data.username!="i")) {
             let who = LC.User.current().data.username;
-            self.logOut();
+            LC.User.logOut();
+            self.push_alert('info', `Hi!`);
             // self.refresh();
-        } else if (LC.User.current()) {
-            self.logged_in = true;
-            self.push_alert('success', `${self.worker}你好，欢迎回来！`);
-            self.refresh();
-        } else {
-            self.refresh();
         };
-        // self.refresh();
+        self.logIn();
+        self.refresh();
     },
     updated() {
         let self = this;

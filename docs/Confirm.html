@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>CCL2021中文空间语义理解评测报名确认</title>
+
+    <link href="dist/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body{background: #eee;}
+        .bodywrap{min-height: 100vh;}
+        .container.page{background: #fff;}
+        .hidden{display: none;}
+        .m0{margin: 0;}
+        /*.form-control{border: 1px solid #eee;}*/
+        .progress-bar{transition: all 0.5s;}
+        .btn{transition: all 0.5s; margin: 1px;}
+        /*#footer{padding-bottom: 5rem;}*/
+        .container{transition: max-width 1s, width 1s;}
+        /**/
+        /**/
+        .table-wrap{overflow: auto;}
+    </style>
+    <style type="text/css">
+        @media print{
+            body{background: #fff; min-width:0 !important;}
+            .container{min-width:0 !important;}
+            .bodywrap{max-width: 100%;}
+            .page{max-width: 100%;}
+            blockquote, pre{page-break-inside: initial;}
+            .navbar{display: none;}
+            #page-import{display: none;}
+            #page-stage{display: none;}
+            #page-items-1{display: none;}
+            #page-items-2{display: none;}
+        }
+    </style>
+
+
+<style type="text/css">
+
+.bodywrap {
+    min-height: 100vh;
+}
+.container.page {
+    background: #fff;
+}
+.hidden {
+    display: none;
+}
+.outputbox {
+    font-size: 10px;
+}
+.navbar-collapse {
+    max-height: calc(90vh - 6rem);
+    overflow-y: scroll;
+}
+.modal-header, .modal-footer {
+    padding: 0.5rem 1rem;
+}
+.modal-body {
+    padding: 1.5rem 1rem;
+}
+.alert-wrap {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2050;
+    display: none;
+    width: 360px;
+    max-width: 80vw;
+    overflow: hidden;
+    outline: 0;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to
+/* .fade-leave-active, 2.1.8 版本以下 */
+
+    {
+    opacity: 0;
+    /*display: none;*/
+}
+.modal-wrap {
+    position: fixed;
+    z-index: 1040;
+}
+.modal-fade-enter-active, .modal-fade-leave-active {
+    transition: opacity 0.5s;
+}
+.modal-fade-enter, .modal-fade-leave-to
+/* .modal-fade-leave-active, 2.1.8 版本以下 */
+
+    {
+    opacity: 0;
+    z-index: 1040;
+    /*display: none;*/
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bodywrap py-2" id="bodywrap">
+
+    <div class="container page my-5" id="the_list" v-if="!confirmed"><div class="container py-5">
+      <div class="row my-2 g-4">
+        <div class="col-12">
+          <h2>CCL2021中文空间语义理解评测报名确认</h2>
+        </div>
+      </div>
+      <div class="row my-2 g-4">
+        <div class="col-12">
+          <p>请再次输入以下信息以确认报名：</p>
+        </div>
+        <div class="col-md-6">
+          <label for="team_name" class="form-label">队伍名称</label>
+          <input type="text" class="form-control"id="team_name" v-model="form.team_name" required>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">联系邮箱</label>
+          <input type="text" class="form-control"id="email" v-model="form.email" required>
+        </div>
+      </div>
+      <div class="row my-2 g-4">
+        <div class="col-12">
+          <button v-if="check_all" class="btn btn-primary" v-on:click="submitIt">确认!</button>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="container page my-5" id="the_result" v-if="confirmed"><div class="container py-2">
+        <div class="row my-4 g-4">
+            <div class="col-12">
+                <h2>CCL2021中文空间语义理解评测报名确认</h2>
+            </div>
+        </div>
+        <div class="row my-4 g-4">
+            <div class="col-12">
+                <p>确认成功！</p>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" v-on:click="reset">重置</button>
+            </div>
+        </div>
+    </div></div>
+
+    <div class="container page my-5" id="the_history" v-if="confirm_history.length"><div class="container py-2">
+        <div class="row my-2 g-4">
+            <div class="col-12">
+                <h4>确认历史</h4>
+            </div>
+            <div class="col-12">
+                <ul>
+                    <li v-for="hh in confirm_history">队伍「{{hh.team_name}}」，邮箱是{{hh.email}}，已确认。</li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+
+
+
+
+
+<!-- Modal -->
+<transition name = "modal-fade"><div v-show="ui.modal_open" class="modal-wrap">
+<div class="modal-backdrop show"></div>
+<div class="modal" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" style="display: block;" aria-modal="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">文档</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" v-on:click="toggle_modal('')">×</span>
+                </button>
+            </div>
+            <div class="modal-body"><div>
+                <div>
+                    <p>哈哈哈</p>
+                </div>
+            </div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" v-on:click="toggle_modal('')">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</transition>
+
+
+<!-- Alert -->
+<div class="alert-wrap" style="display: block;" ref="alert_wrap">
+    <transition name = "fade" v-for="alert in ui.alerts"><div v-show="alert.show" class="alert alert-dismissible alert-success" :class="'alert-'+alert.class">
+        <button type="button" class="btn-close" v-on:click="remove_alert(alert.idx)"></button>
+        <div v-html="alert.html"></div>
+    </div></transition>
+</div>
+
+
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.10.1/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@5.0.0-beta.0/dist/browser/lc.min.js"></script>
+<script type="text/javascript" src="dist/vue.min.js"></script>
+<script type="text/javascript" src="dist/FileSaver.js"></script>
+<script type="text/javascript" src="js/Confirm.js"></script>
+</body>
+</html>
