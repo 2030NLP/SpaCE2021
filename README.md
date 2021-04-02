@@ -4,7 +4,7 @@
 
 **最新消息**
 
-- `2021-04-01` 报名链接开放： [我要报名](https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill)
+- `2021-04-01` 报名链接开放： [我要报名](https://2030nlp.github.io/SpaCE2021/registration.html)
 - `2021-04-01` 数据集 [pack1](https://github.com/2030NLP/SpaCE2021/tree/main/data) 发布，使用前请阅读 [数据集使用许可](https://github.com/2030NLP/SpaCE2021/blob/main/data/LICENSE.md)
 - `2021-04-01` 供参考的评分脚本： [evaluate.py](https://github.com/2030NLP/SpaCE2021/blob/main/ref/evaluate.py)
 
@@ -136,7 +136,7 @@ Z = (X - X̄) / s
 
 ## 五、报名方式
 
-请填写在线报名表： [点击此链接填写报名表](https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0) 。
+请填写在线报名表： [点击此链接填写报名表](https://2030nlp.github.io/SpaCE2021/registration.html) 。
 
 请注意：
 
