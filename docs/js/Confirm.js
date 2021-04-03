@@ -52,9 +52,26 @@ var the_vue = new Vue({
                     if (x.length==1) {
                         // self.push_alert('info', '是的！');
                         x[0].update({'checked2': true}).then((x)=>{
-                            self.confirmed = true;
-                            self.confirm_history.push(self.form);
-                            self.form = {team_name: "", email: "",};
+                            self.push_alert('info', `请稍后`);
+                            //
+                            Team.where('team_name','==',the_vue.form.team_name)
+                                .where('email','==',the_vue.form.email)
+                                .find().then((x)=>{
+                                    if (x.length==1) {
+                                        // self.push_alert('info', '是的！');
+                                        x[0].update({'verified': true}).then((x)=>{
+                                            self.push_alert('success', `验证成功！`);
+                                            //
+                                            //
+                                            self.confirmed = true;
+                                            self.confirm_history.push(self.form);
+                                            self.form = {team_name: "", email: "",};
+                                        }).catch(({ error }) => self.push_alert('danger', error));
+                                    } else {
+                                        self.push_alert('danger', '队名或邮箱存在错误，无法匹配报名信息！');
+                                    };
+                                }).catch(({ error }) => self.push_alert('danger', error));
+                            //
                         }).catch(({ error }) => self.push_alert('danger', error));
                     } else {
                         self.push_alert('danger', '队名或邮箱存在错误，无法匹配报名信息！');
@@ -95,7 +112,7 @@ var the_vue = new Vue({
             LC.User.login('i', 'i').then((x) => {
                 self.push_alert('success', `成功连接服务器，请继续操作。`);
                 self.logged_in = true;
-                self.refresh();
+                // self.refresh();
             }).catch(({ error }) => self.push_alert('danger', error));
         },
 
@@ -105,7 +122,7 @@ var the_vue = new Vue({
             self.signal = "";
             self.logged_in = false;
             self.push_alert('success', `再见${self.worker}！`);
-            self.refresh();
+            // self.refresh();
         },
 
         toggle_modal: function(type) {
@@ -158,7 +175,7 @@ var the_vue = new Vue({
             // self.refresh();
         };
         self.logIn();
-        self.refresh();
+        // self.refresh();
     },
     updated() {
         let self = this;
