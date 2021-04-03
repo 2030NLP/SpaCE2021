@@ -152,15 +152,29 @@
           </div>
           <div class="col-12 table-wrap">
             <table class="table table-bordered table-striped table-hover" v-if="teams.length">
-              <thead>
+              <!-- <thead>
                 <tr v-for="team in [teams[0]]">
                   <th scope="col" v-for="v, k in team">{{k}}</th>
+                </tr>
+              </thead> -->
+              <thead>
+                <tr>
+                  <th scope="col">队名</th>
+                  <th scope="col">来源</th>
+                  <th scope="col">单位</th>
+                  <th scope="col">子团体</th>
+                  <th scope="col">已确认</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="team in teams">
                   <!-- <th scope="row">-</th> -->
-                  <td v-for="v, k in team">{{v}}</td>
+                  <!-- <td v-for="v, k in team">{{v}}</td> -->
+                  <th scope="row">{{team.team_name}}</th>
+                  <td>{{team.team_type}}</td>
+                  <td><span :title="team.institution">{{team.institution2||team.institution}}</span></td>
+                  <td>{{team.group}}</td>
+                  <td>{{team.verified}}</td>
                 </tr>
               </tbody>
             </table>
@@ -175,7 +189,7 @@
           </div>
           <div class="col-12 table-wrap">
             <table class="table table-bordered table-striped table-hover align-middle" v-if="happy_teams.length">
-<!--               <thead>
+              <!-- <thead>
                 <tr v-for="team in [happy_teams[0]]">
                   <th scope="col" v-for="v, k in team">{{k}}</th>
                 </tr>
