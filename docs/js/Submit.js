@@ -20,19 +20,27 @@ function answerEncode(str) {
     };
     let lll_ = [];
     ll_.forEach(x => {if(x!=""){lll_.push(parseInt(x, 2).toString(36))}});
-    // console.log(ll_);
-    // console.log(lll_);
+    console.log(ll_);
+    console.log(lll_);
+    console.log(str2);
+    console.log(str);
     return lll_.join("-");
 }
 
 function answerDecode(str) {
     let lll_ = str.split("-");
+    let llll_ = [];
     let ll_ = [];
-    lll_.forEach(x => ll_.push(parseInt(x, 36).toString(2)));
-    let x = ll_[0].length % 35;
+    lll_.forEach(x => llll_.push(parseInt(x, 36).toString(2)));
+    llll_.forEach(x => ll_.push(`${'0'.repeat(35-x.length)}${x}`));
+    // let x = ll_[0].length % 35;
     // ll_[0] = `${'0'.repeat(35-x)}${ll_[0]}`;
     let str2 = ll_.join("");
-    let str_ = str2.slice(1, str2.length);
+    let str_ = str2.replace(/^0*1/, '');
+    console.log(ll_);
+    console.log(lll_);
+    console.log(str2);
+    console.log(str_);
     return str_;
 }
 
@@ -253,7 +261,7 @@ var the_vue = new Vue({
                     return false;
                 };
                 if (answerDecode(answerEncode(self[`sheet${ii}`])) != self[`sheet${ii}`]) {
-                    self.push_alert('danger', `提交中止：数据编码函数存在问题，请与主办方联系（ sc_eval@163.com ），给您带来不便非常抱歉！`);
+                    self.push_alert('danger', `提交中止：数据编码函数存在问题，请与主办方联系（ sc_eval@163.com ），给您带来不便非常抱歉！(${ii})`);
                     return false;
                 };
             };
