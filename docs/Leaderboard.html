@@ -123,6 +123,7 @@
                 <th scope="col">task2_Z</th>
                 <th scope="col">task3_Z</th> -->
                 <th scope="col">Z_mean</th>
+                <th scope="col">提交时间</th>
               </tr>
             </thead>
             <tbody>
@@ -137,6 +138,7 @@
                 <td>{{score.task2_Z}}</td>
                 <td>{{score.task3_Z}}</td> -->
                 <td :title="`task1_Z: ${score.task1_Z}\ntask2_Z: ${score.task2_Z}\ntask3_Z: ${score.task3_Z}`">{{score.Z_mean}}</td>
+                <td>{{formatDate(score.submittedAt)}}</td>
               </tr>
             </tbody>
           </table>
