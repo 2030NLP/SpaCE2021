@@ -145,7 +145,7 @@ var the_vue = new Vue({
                     self.ss = {"1": {"1": [], "2": [], "3": [], }, "2": {"1": [], "2": [], "3": [], }, };
                     self.scores.forEach(da=>{
                         if (da.team_name in final_dict[`${da.which_set}`]) {
-                            self.push_alert('warning', `「${da.team_name}」的非最佳成绩被排除。`);
+                            // self.push_alert('warning', `「${da.team_name}」的非最佳成绩被排除。`);
                         } else {
                             final_dict[`${da.which_set}`][da.team_name] = da;
                             final_scores[`${da.which_set}`].push(da);
