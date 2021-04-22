@@ -177,6 +177,7 @@ var the_vue = new Vue({
                     self.scores = [];
                     let oo = {"1": 1, "2": 1, };
                     for (let k of ['1', '2']) {
+                        final_scores[k].sort((a, b)=>{return b.Z_mean - a.Z_mean});
                         // self.push_alert('info', `开始重新计算「${k}」排名……`);
                         if (final_scores[k].length) {
                             final_scores[k].forEach(da=>{
