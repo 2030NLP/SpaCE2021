@@ -120,6 +120,11 @@
       </div>
       <div class="row my-2 g-3">
         <div class="col-12">
+            <p>数据提交系统升级维护中，请稍后再试。</p>
+        </div>
+      </div>
+      <div class="row my-2 g-3" v-if="false">
+        <div class="col-12">
             <ul class="nav nav-tabs">
               <li class="nav-item">
                 <span class="nav-link" :class="{'active':solution==1}" v-on:click="solution=1">方法1</span>
@@ -133,7 +138,7 @@
             </ul>
         </div>
       </div>
-      <div class="row my-2 g-3">
+      <div class="row my-2 g-3" v-if="false">
         <div class="col-12" v-if="solution==2">
             <div>
               <p>请将所有题目的答案从True/False转换为1/0，按顺序拼接为字符串。</p>
@@ -219,7 +224,7 @@
             </div>
         </div> -->
       </div>
-      <div class="row my-2 g-4">
+      <div class="row my-2 g-4" v-if="false">
         <div class="col-12">
             <hr>
         </div>
