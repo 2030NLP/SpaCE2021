@@ -1,217 +1,77 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html lang="en">
 <head>
+    <link href="static/css/main.css" rel="stylesheet">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-    <title>CCL2021中文空间语义理解评测报名确认</title>
-
-    <link href="dist/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-        body{background: #eee;}
-        .bodywrap{min-height: 100vh;}
-        .container.page{background: #fff;}
-        .hidden{display: none;}
-        .m0{margin: 0;}
-        /*.form-control{border: 1px solid #eee;}*/
-        .progress-bar{transition: all 0.5s;}
-        .btn{transition: all 0.5s; margin: 1px;}
-        /*#footer{padding-bottom: 5rem;}*/
-        .container{transition: max-width 1s, width 1s;}
-        /**/
-        /**/
-        .table-wrap{overflow: auto;}
-    </style>
-    <style type="text/css">
-        @media print{
-            body{background: #fff; min-width:0 !important;}
-            .container{min-width:0 !important;}
-            .bodywrap{max-width: 100%;}
-            .page{max-width: 100%;}
-            blockquote, pre{page-break-inside: initial;}
-            .navbar{display: none;}
-            #page-import{display: none;}
-            #page-stage{display: none;}
-            #page-items-1{display: none;}
-            #page-items-2{display: none;}
-        }
-    </style>
-
-
-<style type="text/css">
-
-.bodywrap {
-    min-height: 100vh;
-}
-.container.page {
-    background: #fff;
-}
-.hidden {
-    display: none;
-}
-.outputbox {
-    font-size: 10px;
-}
-.navbar-collapse {
-    max-height: calc(90vh - 6rem);
-    overflow-y: scroll;
-}
-.modal-header, .modal-footer {
-    padding: 0.5rem 1rem;
-}
-.modal-body {
-    padding: 1.5rem 1rem;
-}
-.alert-wrap {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 2050;
-    display: none;
-    width: 360px;
-    max-width: 80vw;
-    overflow: hidden;
-    outline: 0;
-}
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to
-/* .fade-leave-active, 2.1.8 版本以下 */
-
-    {
-    opacity: 0;
-    /*display: none;*/
-}
-.modal-wrap {
-    position: fixed;
-    z-index: 1040;
-}
-.modal-fade-enter-active, .modal-fade-leave-active {
-    transition: opacity 0.5s;
-}
-.modal-fade-enter, .modal-fade-leave-to
-/* .modal-fade-leave-active, 2.1.8 版本以下 */
-
-    {
-    opacity: 0;
-    z-index: 1040;
-    /*display: none;*/
-}
-
-</style>
+    <title>中文空间语义评测</title>
 
 </head>
 
 <body>
+<div class="head-nav">
+<ul>
+    <li><a style="font-weight:bold" href="index.html" >主页</a></li>
+    <li><a href="task.html">任务说明</a></li>
+    <li><a href="agreement.html">竞赛须知</a></li>
+    <li><a href="news.html">最新公告</a></li>
+    <li><a href="Leaderboard.html">竞赛排名</a></li>
+    <li><a href="submit.html">提交方式</a></li>
+    <li><a href="registration.html">报名</a></li>
+    <!--<li><a href="submit.html">提交方式</a></li>-->
 
-<div class="bodywrap py-2" id="bodywrap">
+<!--<li><a href="https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill">报名</a></li>-->
 
-    <div class="container page my-5" id="the_list" v-if="!confirmed"><div class="container py-5">
-      <div class="row my-2 g-4">
-        <div class="col-12">
-          <h2>CCL2021中文空间语义理解评测报名确认</h2>
-        </div>
-      </div>
-      <div class="row my-2 g-4">
-        <div class="col-12">
-          <p>请再次输入以下信息以确认报名：</p>
-        </div>
-        <div class="col-md-6">
-          <label for="team_name" class="form-label">队伍名称</label>
-          <input type="text" class="form-control"id="team_name" v-model="form.team_name" required>
-        </div>
-        <div class="col-md-6">
-          <label for="email" class="form-label">联系邮箱</label>
-          <input type="text" class="form-control"id="email" v-model="form.email" required>
-        </div>
-      </div>
-      <div class="row my-2 g-4">
-        <div class="col-12">
-          <button v-if="check_all" class="btn btn-primary" v-on:click="submitIt">确认!</button>
-        </div>
-      </div>
-    </div></div>
+</ul>
+</div>
+    <div id="neck"></div>
+    <div id='write' class=''>
 
-    <div class="container page my-5" id="the_result" v-if="confirmed"><div class="container py-2">
-        <div class="row my-4 g-4">
-            <div class="col-12">
-                <h2>CCL2021中文空间语义理解评测报名确认</h2>
-            </div>
-        </div>
-        <div class="row my-4 g-4">
-            <div class="col-12">
-                <p>确认成功！</p>
-            </div>
-            <div class="col-12">
-                <button class="btn btn-primary" v-on:click="reset">重置</button>
-            </div>
-        </div>
-    </div></div>
-
-    <div class="container page my-5" id="the_history" v-if="confirm_history.length"><div class="container py-2">
-        <div class="row my-2 g-4">
-            <div class="col-12">
-                <h4>确认历史</h4>
-            </div>
-            <div class="col-12">
-                <ul>
-                    <li v-for="hh in confirm_history">队伍「{{hh.team_name}}」，邮箱是{{hh.email}}，已确认。</li>
-                </ul>
-            </div>
-        </div>
-    </div></div>
+        <p><span>各位SpaCE2021的参赛者：大家好。</span></p><p><span>为了给大家提供更安全的竞赛环境，我们对竞赛网站进行了升级。从即日起，竞赛官网迁至北大校内服务器，并且采取注册账号登录后操作的方式进行报名和数据提交。网址是： </span><a href='http://ccl.pku.edu.cn:8084/SpaCE2021' target='_blank' class='url'>http://ccl.pku.edu.cn:8084/SpaCE2021</a></p><p><span>注意事项：</span><br/>
+<span>1、我们为已经报名的队伍设置了账号，用户名为队伍名称/注册邮箱，初始密码为space2021+报名所使用的手机号（不含加号）。请大家及时访问新网站修改密码。</span><br/>
+<span>2、竞赛的赛程有所调整，请以最新网站说明为准。</span><br/>
+<span>3、从即日起，每个队伍共可提交20次dev集的结果，新站启用之前提交的结果不计入次数。</span></p><p><span>如有任何问题、意见或Bug报告，请随时联系我们。祝大家生活愉快！</span></p><p><span>SpaCE2021委员会联络人 孙春晖</span><br/>
+<span>2021年5月5日</span></p>
 
 
-
-
-
-<!-- Modal -->
-<transition name = "modal-fade"><div v-show="ui.modal_open" class="modal-wrap">
-<div class="modal-backdrop show"></div>
-<div class="modal" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" style="display: block;" aria-modal="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">文档</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" v-on:click="toggle_modal('')">×</span>
-                </button>
-            </div>
-            <div class="modal-body"><div>
-                <div>
-                    <p></p>
-                </div>
-            </div></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" v-on:click="toggle_modal('')">Close</button>
-            </div>
-        </div>
     </div>
-</div>
-</div>
-</transition>
+    <div id="feet"></div>
+    <div class="jumbotron" style="-webkit-border-radius: 0;
+                            margin-bottom:0;
+                            -moz-border-radius: 0;
+                            border-radius: 0;
+                            width:100%;
+                            height:270px;
+                            top:100%;
+                            text-align: center;
+                            background-color: #333;
+                            color: white;
+">
+        <br>
+        <p class="text-center">
+            <font size="2">主办单位：北京大学&nbsp;&nbsp;&nbsp; 复旦大学</font>
+            <br/>
+            <a href="https://icl.pku.edu.cn/"><font size="2" color="white">北京大学计算语言学研究所</font></a>
+            <br/>
+            <!--<font size="2">-->
+            <!--站点访问量&nbsp;&nbsp;|&nbsp;&nbsp;-->
+            <!--{% for hit in hits_list %}-->
+            <!--<code>{{ hit }}</code>-->
+            <!--{% endfor %}-->
+            <!--</font>-->
+            <!--<br/>-->
+            <font size="2">联系方式：sc_eval@163.com</font>
+            <br/>
+        </p>
+        <p class="text-center">
 
+            <a href="https://www.pku.edu.cn" title="北京大学" target="_blank">
+                <img src="static/images/pku_logo.png" height="50px">
+            </a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="https://www.fudan.edu.cn/" title="复旦大学" target="_blank">
+                <img src="static/images/fdu_logo.png" height="50px">
+            </a>
+        </p>
+    </div>
 
-<!-- Alert -->
-<div class="alert-wrap" style="display: block;" ref="alert_wrap">
-    <transition name = "fade" v-for="alert in ui.alerts"><div v-show="alert.show" class="alert alert-dismissible alert-success" :class="'alert-'+alert.class">
-        <button type="button" class="btn-close" v-on:click="remove_alert(alert.idx)"></button>
-        <div v-html="alert.html"></div>
-    </div></transition>
-</div>
-
-
-
-
-
-</div>
-<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.10.1/dist/av-min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@5.0.0-beta.0/dist/browser/lc.min.js"></script>
-<script type="text/javascript" src="dist/vue.min.js"></script>
-<script type="text/javascript" src="dist/FileSaver.js"></script>
-<script type="text/javascript" src="js/Confirm.js"></script>
 </body>
-</html>
