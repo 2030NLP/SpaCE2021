@@ -44,7 +44,7 @@ var the_vue = new Vue({
             agree: false,
         },
         "history": [],
-        "qr": {},
+        "qr": null,
         //
     },
     computed: {
@@ -130,9 +130,9 @@ var the_vue = new Vue({
                             .catch(({ error }) => self.push_alert('danger', error));
                     }; // else {self.push_alert('danger', '出了点问题…')};
                 })
-                // .then(()=>{
-                //     self.qr = new QRCode(document.getElementById("qrcode"), "https://weixin.qq.com/g/AQYAAPLZlmUTp5hQzmrFYx2Pd0-xXFEefY7w1lH2mh8FVPEQwrMRaBQKdn_A1cDP");
-                // })
+                .then(()=>{
+                    self.qr = self.qr ?? new QRCode(document.getElementById("qrcode"), "https://weixin.qq.com/g/AQYAAPLZlmUTp5hQzmrFYx2Pd0-xXFEefY7w1lH2mh8FVPEQwrMRaBQKdn_A1cDP");
+                })
                 .catch(({ error }) => self.push_alert('danger', error));
         },
         reset() {
