@@ -1,73 +1,314 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
-    <link href="static/css/main.css" rel="stylesheet">
     <meta charset="utf-8">
-    <title>中文空间语义评测</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>中文空间语义理解评测</title>
+
+    <link href="dist/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body{background: #eee;}
+        .bodywrap{min-height: 100vh;}
+        .container.page{background: #fff;}
+        .hidden{display: none;}
+        .m0{margin: 0;}
+        /*.form-control{border: 1px solid #eee;}*/
+        .progress-bar{transition: all 0.5s;}
+        .btn{transition: all 0.5s; margin: 1px;}
+        /*#footer{padding-bottom: 5rem;}*/
+        .container{transition: max-width 1s, width 1s;}
+    </style>
+    <style type="text/css">
+        @media print{
+            body{background: #fff; min-width:0 !important;}
+            .container{min-width:0 !important;}
+            .bodywrap{max-width: 100%;}
+            .page{max-width: 100%;}
+            blockquote, pre{page-break-inside: initial;}
+            .navbar{display: none;}
+            #page-import{display: none;}
+            #page-stage{display: none;}
+            #page-items-1{display: none;}
+            #page-items-2{display: none;}
+        }
+    </style>
+
+
+<style type="text/css">
+
+.bodywrap {
+    min-height: 100vh;
+}
+.container.page {
+    background: #fff;
+}
+.hidden {
+    display: none;
+}
+.outputbox {
+    font-size: 10px;
+}
+.navbar-collapse {
+    max-height: calc(90vh - 6rem);
+    overflow-y: scroll;
+}
+.modal-header, .modal-footer {
+    padding: 0.5rem 1rem;
+}
+.modal-body {
+    padding: 1.5rem 1rem;
+}
+.alert-wrap {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2050;
+    display: none;
+    width: 360px;
+    max-width: 80vw;
+    overflow: hidden;
+    outline: 0;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to
+/* .fade-leave-active, 2.1.8 版本以下 */
+
+    {
+    opacity: 0;
+    /*display: none;*/
+}
+.modal-wrap {
+    position: fixed;
+    z-index: 1040;
+}
+.modal-fade-enter-active, .modal-fade-leave-active {
+    transition: opacity 0.5s;
+}
+.modal-fade-enter, .modal-fade-leave-to
+/* .modal-fade-leave-active, 2.1.8 版本以下 */
+
+    {
+    opacity: 0;
+    z-index: 1040;
+    /*display: none;*/
+}
+
+</style>
 
 </head>
 
 <body>
-<div class="head-nav">
-<ul>
-    <li><a style="font-weight:bold" href="index.html" >最新消息</a></li>
-    <li><a href="http://ccl.pku.edu.cn:8084/SpaCE2021">主页<small>（新站点）</small></a></li>
-    <!--<li><a href="submit.html">提交方式</a></li>-->
 
-<!--<li><a href="https://docs.qq.com/form/page/DRGFXVmVEUG9DbnV0#/fill">报名</a></li>-->
+<div class="bodywrap py-2" id="bodywrap">
 
-</ul>
+    <div class="container page my-5" id="the_form" v-if="!submission_succeeded"><div class="container py-2">
+        <div class="row my-2 g-4">
+            <div class="col-12">
+                <h2>CCL2021中文空间语义理解评测<small><small>（SpaCE2021）</small></small>报名表</h2>
+                <p class="text-muted">此页为无法访问北大校园网时的临时报名通道，若可访问北大校园网，请转至 <a href="http://ccl.pku.edu.cn:8084/SpaCE2021/">→此处←</a> 注册并填写报名信息！</p>
+            </div>
+        </div>
+        <form class="row my-4 g-4">
+          <!-- --- -->
+          <div class="col-md-8">
+            <label for="team_name" class="form-label">队伍名称 *</label>
+            <input type="text" class="form-control" :class="form.team_name?(check_team_name?'is-valid':'is-invalid'):''" id="team_name" v-model="form.team_name" required>
+            <div class="form-text" :class="form.team_name?(check_team_name?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 不超过10个字符。
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="team_type" class="form-label">来源 *</label>
+            <select class="form-select" :class="check_team_type?'is-valid':(form.team_type=='【请选择】'?'is-invalid':'')" id="team_type" v-model="form.team_type" required>
+              <option selected>【请选择】</option>
+              <option value="学术机构">高校等学术机构</option>
+              <option value="商业机构">公司等商业机构</option>
+              <option value="独立团队">独立团队</option>
+              <option value="个人">个人</option>
+            </select>
+            <div class="form-text" :class="form.team_type?(check_team_type?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 队伍来自于何种性质的单位。
+            </div>
+          </div>
+          <!-- --- -->
+          <div class="col-md-4">
+            <label for="institution" class="form-label">隶属单位全称 *</label>
+            <input type="text" class="form-control" :class="form.institution?(check_institution?'is-valid':'is-invalid'):''" id="institution" v-model="form.institution" required>
+            <div class="form-text" :class="form.institution?(check_institution?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 如：“某某大学 / 公司 / 研究所” / “个人” / “独立团队” 等。
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="institution2" class="form-label">隶属单位简称</label>
+            <input type="text" class="form-control"id="institution2" v-model="form.institution2">
+            <div class="form-text">
+              隶属单位全称超过8个字时建议填写。
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="group" class="form-label">隶属团体</label>
+            <input type="text" class="form-control"id="group" v-model="form.group">
+            <div class="form-text">
+              如：某某实验室 / 某某科研团队 / 某某部门 / 某年级某班 等。
+            </div>
+          </div>
+          <!-- --- -->
+          <div class="col-md-4">
+            <label for="leader" class="form-label">队长 *</label>
+            <input type="text" class="form-control" :class="form.leader?(check_leader?'is-valid':'is-invalid'):''" id="leader" v-model="form.leader" required>
+            <div class="form-text" :class="form.leader?(check_leader?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 参赛系统最主要的贡献者或队伍的组织者。
+            </div>
+          </div>
+          <div class="col-md-5">
+            <label for="card_id" class="form-label">队长证件号码 *</label>
+            <input type="text" class="form-control" :class="form.card_id?(check_card_id?'is-valid':'is-invalid'):''" id="card_id" v-model="form.card_id" required>
+            <div class="form-text" :class="form.card_id?(check_card_id?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 队长的身份证号或其他有效证件的号码。
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label for="card_type" class="form-label">队长证件类型 *</label>
+            <input type="text" class="form-control"id="card_type" v-model="form.card_type">
+            <div class="form-text">
+              若证件不是中国大陆身份证，请说明证件类型。
+            </div>
+          </div>
+          <!-- --- -->
+          <div class="col-md-12">
+            <label for="people" class="form-label">参赛人员 *<small>（含队长）</small></label>
+            <textarea class="form-control" id="people" v-model="form.people" required></textarea>
+            <div class="form-text">
+              <strong>必填</strong> 人名之间用<strong>中文逗号</strong>分隔。<span :class="form.people?(check_people?'d-none':'d-inline'):'d-none'">建议每队不超过10人（不严格限制）。</span>
+            </div>
+          </div>
+          <!-- --- -->
+          <div class="col-md-6">
+            <label for="phone" class="form-label">联系手机号 *</label>
+            <input type="text" class="form-control" :class="form.phone?(check_phone?'is-valid':'is-invalid'):''" id="phone" v-model="form.phone" required>
+            <div class="form-text" :class="form.phone?(check_phone?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 请使用中国大陆手机号码。
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">联系邮箱 *</label>
+            <input type="text" class="form-control" :class="form.email?(check_email?'is-valid':'is-invalid'):''" id="email" v-model="form.email" required>
+            <div class="form-text" :class="form.email?(check_email?'valid-feedback':'invalid-feedback'):''">
+              <strong>必填</strong> 重要，主办方将通过邮件确认您已参赛。
+            </div>
+          </div>
+        </form>
+        <div class="row my-4 g-4">
+          <!-- --- -->
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" v-model="form.agree" :class="form.agree?'is-valid':''" type="checkbox" id="agree" required>
+              <label class="form-check-label" for="agree">
+                阅读、理解并同意 <a href="https://github.com/2030NLP/SpaCE2021/blob/main/Agreement.md" target="_blank">参赛协议</a> 和 <a href="https://github.com/2030NLP/SpaCE2021/blob/main/data/LICENSE.md" target="_blank">数据集使用许可</a>。
+              </label>
+              <div v-if="!form.agree" id="agreeFeedback" class="form-text">
+                请阅读并同意上述协议。
+              </div>
+              <div v-if="form.agree" id="agreeFeedback" class="valid-feedback">
+                感谢支持！
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <button v-if="!check_all" class="btn btn-secondary" disabled>提交报名表</button>
+            <button v-if="check_all" class="btn btn-primary" v-on:click="submitIt">提交报名表</button>
+            <!-- <button class="btn btn-danger" v-on:click="reset">清空后重新填写</button> -->
+          </div>
+        </div>
+    </div></div>
+
+    <div class="container page my-5" id="the_result" v-show="submission_succeeded"><div class="container py-2">
+        <div class="row my-4 g-4">
+            <div class="col-12">
+                <h2>CCL2021中文空间语义理解评测<small>（SpaCE2021）</small>报名表</h2>
+                <p class="text-muted">此页为无法访问北大校园网时的临时报名通道，若可访问北大校园网，请转至 <a href="http://ccl.pku.edu.cn:8084/SpaCE2021/">→此处←</a> 注册并填写报名信息！</p>
+            </div>
+        </div>
+        <div class="row my-4 g-4">
+            <div class="col-12">
+                <p>提交成功！</p>
+                <p>请扫描下方二维码加群，进群请修改备注为 <code>队名+姓名</code> ，如 <code>{{form.team_name}}+{{form.leader}}</code> 。</p>
+                <p><div id="qrcode"></div></p>
+                <p>此二维码 7 月 1 日前有效。</p>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" v-on:click="reset">重新填写报名表</button>
+            </div>
+        </div>
+    </div></div>
+
+    <div class="container page my-5" id="the_history" v-if="history.length"><div class="container py-2">
+        <div class="row my-2 g-4">
+            <div class="col-12">
+                <h4>提交历史</h4>
+            </div>
+            <div class="col-12">
+                <ul>
+                    <li v-for="hh in history">队伍「{{hh.team_name}}」，来自{{hh.institution}}，队长是{{hh.leader}}，邮箱是{{hh.email}}。</li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+
+
+
+
+
+<!-- Modal -->
+<transition name = "modal-fade"><div v-show="ui.modal_open" class="modal-wrap">
+<div class="modal-backdrop show"></div>
+<div class="modal" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" style="display: block;" aria-modal="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" v-on:click="toggle_modal('')">×</span>
+                </button>
+            </div>
+            <div class="modal-body"><div>
+                <div>
+                    <p></p>
+                </div>
+            </div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" v-on:click="toggle_modal('')">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
-    <div id="neck"></div>
-    <div id='write' class=''>
-
-<ul><li><p><code>2021-06-04</code><span> </span><strong><span>北大校园网暂停校外访问</span></strong></p><blockquote><p><span>各位SpaCE2021的参赛者：大家好。</span></p><p><span>非常抱歉的通知大家，近期北大校园网暂停了校外访问，近期大家可能无法访问评测网站。这一情况按照惯例大约会持续到下周。待网站重新开放时会再次通知大家。大家也可通过 Github 页面（ </span><a href="https://github.com/2030NLP/SpaCE2021" target="_blank" class="url">https://github.com/2030NLP/SpaCE2021</a><span> ）了解最新动态。</span></p><p><span>SpaCE2021 评测联系人 孙春晖</span>
-<span>2021年6月4日</span></p></blockquote></li><li><p><code>2021-06-03</code><span> 提交时可添加对方法或模型的描述</span></p></li><li><p><code>2021-06-01</code><span> </span><strong><span>验证集答案发布</span></strong><span>！ </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021/download"><span>🔗 点击下载 dev-with-answer</span></a></p></li><li><p><code>2021-05-18</code><span> 数据集修订</span></p><blockquote><p><span>各位参赛者：大家好！</span></p><p><span>为了使本次竞赛数据集具有更好的理论效度，我们对已发布数据集中存在的 2660 处小问题进行了修订，主要包括一些 context 中多余的句末标点、少量 context 及 reason 中的错别字，以及少量 context 中出现的字符错位情况。这些修订并不影响题目数量和答案正确性。数据的具体变化请看 </span><a href="https://github.com/2030NLP/SpaCE2021/commit/c286efc84119f307065de740bf203b1eadc53942"><span>此处</span></a><span> 。</span></p><p><span>我们也对排行榜以及提交次数限制进行了重置，并更新了基线成绩，请大家及时下载 </span><a href="https://github.com/2030NLP/SpaCE2021/tree/main/data/pack1"><span>最新的数据集</span></a><span> 进行训练和提交。</span></p><p><span>我们为给您带来的不便表示歉意。若您遇到任何问题，请随时与我们联系。</span></p><p><span>SpaCE2021 评测联系人 孙春晖</span></p><p><span>2021年5月18日</span></p></blockquote></li><li><p><code>2021-05-05</code><span> 启用新网站： </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021/"><span>SpaCE2021</span></a></p><blockquote><p><span>各位SpaCE2021的参赛者：大家好。</span></p><p><span>为了给大家提供更安全的竞赛环境，我们对竞赛网站进行了升级。从即日起，竞赛官网迁至北大校内服务器，并且采取注册账号登录后操作的方式进行报名和数据提交。网址是： </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021" target="_blank" class="url">http://ccl.pku.edu.cn:8084/SpaCE2021</a></p><p><span>注意事项：</span>
-<span>1、我们为已经报名的队伍设置了账号，用户名为队伍名称/注册邮箱，初始密码为space2021+报名所使用的手机号（不含加号）。请大家及时访问新网站修改密码。</span>
-<span>2、竞赛的赛程有所调整，请以最新网站说明为准。</span>
-<span>3、从即日起，每个队伍共可提交20次dev集的结果，新站启用之前提交的结果不计入次数。</span></p><p><span>如有任何问题、意见或Bug报告，请随时联系我们。祝大家生活愉快！</span></p><p><span>SpaCE2021 评测联系人 孙春晖</span>
-<span>2021年5月5日</span></p></blockquote></li><li><p><code>2021-04-10</code><span> 排行榜发布： </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021/rank"><span>Leaderboard</span></a></p></li><li><p><code>2021-04-05</code><span> 基线系统发布： </span><a href="https://github.com/2030NLP/SpaCE2021-Baseline"><span>SpaCE2021-Baseline</span></a></p></li><li><p><code>2021-04-05</code><span> 开放数据提交： </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021/submit"><span>提交结果</span></a></p></li><li><p><code>2021-04-01</code><span> 开放报名： </span><a href="http://ccl.pku.edu.cn:8084/SpaCE2021/"><span>我要报名</span></a></p></li><li><p><code>2021-04-01</code><span> 数据集 </span><a href="https://github.com/2030NLP/SpaCE2021/tree/main/data"><span>pack1</span></a><span> 发布，使用前请阅读 </span><a href="https://github.com/2030NLP/SpaCE2021/blob/main/data/LICENSE.md"><span>数据集使用许可</span></a></p></li><li><p><code>2021-04-01</code><span> 供参考的评分脚本： </span><a href="https://github.com/2030NLP/SpaCE2021/blob/main/ref/evaluate.py"><span>evaluate.py</span></a></p></li></ul>
+</div>
+</transition>
 
 
-    </div>
-    <div id="feet"></div>
-    <div class="jumbotron" style="-webkit-border-radius: 0;
-                            margin-bottom:0;
-                            -moz-border-radius: 0;
-                            border-radius: 0;
-                            width:100%;
-                            height:270px;
-                            top:100%;
-                            text-align: center;
-                            background-color: #333;
-                            color: white;
-">
-        <br>
-        <p class="text-center">
-            <font size="2">主办单位：北京大学&nbsp;&nbsp;&nbsp; 复旦大学</font>
-            <br/>
-            <a href="https://icl.pku.edu.cn/"><font size="2" color="white">北京大学计算语言学研究所</font></a>
-            <br/>
-            <!--<font size="2">-->
-            <!--站点访问量&nbsp;&nbsp;|&nbsp;&nbsp;-->
-            <!--{% for hit in hits_list %}-->
-            <!--<code>{{ hit }}</code>-->
-            <!--{% endfor %}-->
-            <!--</font>-->
-            <!--<br/>-->
-            <font size="2">联系方式：sc_eval@163.com</font>
-            <br/>
-        </p>
-        <p class="text-center">
+<!-- Alert -->
+<div class="alert-wrap" style="display: block;" ref="alert_wrap">
+    <transition name = "fade" v-for="alert in ui.alerts"><div v-show="alert.show" class="alert alert-dismissible alert-success" :class="'alert-'+alert.class">
+        <button type="button" class="btn-close" v-on:click="remove_alert(alert.idx)"></button>
+        <div v-html="alert.html"></div>
+    </div></transition>
+</div>
 
-            <a href="https://www.pku.edu.cn" title="北京大学" target="_blank">
-                <img src="static/images/pku_logo.png" height="50px">
-            </a>
-            &nbsp;&nbsp;&nbsp;
-            <a href="https://www.fudan.edu.cn/" title="复旦大学" target="_blank">
-                <img src="static/images/fdu_logo.png" height="50px">
-            </a>
-        </p>
-    </div>
 
+
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.10.1/dist/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leancloud-storage@5.0.0-beta.0/dist/browser/lc.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script type="text/javascript" src="dist/vue.min.js"></script>
+<script type="text/javascript" src="dist/FileSaver.js"></script>
+<script type="text/javascript" src="js/Registration.js"></script>
 </body>
+</html>
